@@ -7,21 +7,21 @@
         <result column="flow_id" property="flowId" jdbcType="VARCHAR"/>
         <result column="node_id" property="nodeId" jdbcType="VARCHAR"/>
         <result column="auditor" property="auditor" jdbcType="VARCHAR"/>
-        <result column="actionList" property="actionList" jdbcType="TINYINT"/>
+        <result column="action" property="action" jdbcType="TINYINT"/>
         <result column="audit_result" property="auditResult" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="columnList">
-        id, record_id, flow_id, node_id, auditor, actionList, audit_result, create_time, update_time
+        id, record_id, flow_id, node_id, auditor, action, audit_result, create_time, update_time
     </sql>
 
     <insert id="insert" parameterType="TblAuditLog">
         INSERT INTO tb_audit_log
-        (record_id, flow_id, node_id, auditor, actionList, audit_result)
+        (record_id, flow_id, node_id, auditor, action, audit_result)
         VALUE
-        (#{recordId}, #{flowId}, #{nodeId}, #{auditor}, #{actionList}, #{auditResult})
+        (#{recordId}, #{flowId}, #{nodeId}, #{auditor}, #{action}, #{auditResult})
     </insert>
 
     <select id="selectByFlowIdAndAuditor" resultMap="resultMap">
