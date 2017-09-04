@@ -61,6 +61,7 @@ public class AccountController {
         // 3.填充用户权限信息
         RoleAuthority roleAuthority = roleAuthorityList.get(0);
         userDto.setRole(roleAuthority.getRole().getRoleName());
+        userDto.setRoleId(roleAuthority.getRole().getRoleId());
         userDto.setRolePriority(roleAuthority.getRole().getPriority());
         userDto.setAuthorityList(Lists.<String>newArrayList());
 

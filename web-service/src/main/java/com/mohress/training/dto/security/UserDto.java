@@ -26,6 +26,11 @@ public class UserDto {
     private String role;
 
     /**
+     * 角色Id
+     */
+    private String roleId;
+
+    /**
      * 角色优先级
      */
     private Integer rolePriority;
