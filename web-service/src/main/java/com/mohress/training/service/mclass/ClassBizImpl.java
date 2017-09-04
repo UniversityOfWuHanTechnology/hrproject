@@ -93,40 +93,42 @@ public class ClassBizImpl implements ModuleBiz {
         }
 
         for (ClassItemDto dto : classItemDtos) {
-            List<TblClassMember> classMembers = tblClassMemberDao.selectByClassId(dto.getClassId());
-            if (CollectionUtils.isEmpty(classMembers)) {
-                continue;
-            }
-            String courseId = dto.getCourseId();
-            TblCourse tblCourse = tblCourseDao.selectByCourseId(courseId);
-            BusiVerify.verifyNotNull(tblCourse, "查询关联课程为空" + pageDto);
-            TeacherQuery query = new TeacherQuery();
-            query.setTeacherId(tblCourse.getTeacherId());
-            List<TblTeacher> teachers = teacherServiceImpl.query(query);
-            BusiVerify.verify(!CollectionUtils.isEmpty(teachers), "根据课程ID查询教师为空" + tblCourse.getTeacherId());
-            dto.setTeacherName(teachers.get(0).getName());
-            dto.setCourseName(tblCourse.getCourseName());
-            AgencyQuery agencyQuery = new AgencyQuery(10, 0);
-            agencyQuery.setAgencyId(dto.getAgencyId());
-            List<TblAgency> agencyList = agencyServiceImpl.query(agencyQuery);
-            BusiVerify.verify(!CollectionUtils.isEmpty(agencyList), "机构为空");
-            dto.setAgencyName(agencyList.get(0).getAgencyName());
-            List<String> studentIds = Lists.newArrayList();
-            for (TblClassMember member : classMembers) {
-                studentIds.add(member.getStudentId());
-            }
+            try {
+                List<TblClassMember> classMembers = tblClassMemberDao.selectByClassId(dto.getClassId());
+                if (CollectionUtils.isEmpty(classMembers)) {
+                    continue;
+                }
+                String courseId = dto.getCourseId();
+                TblCourse tblCourse = tblCourseDao.selectByCourseId(courseId);
+                BusiVerify.verifyNotNull(tblCourse, "查询关联课程为空" + pageDto);
+                TeacherQuery query = new TeacherQuery();
+                query.setTeacherId(tblCourse.getTeacherId());
+                List<TblTeacher> teachers = teacherServiceImpl.query(query);
+                if (!CollectionUtils.isEmpty(teachers)) {
+                    dto.setTeacherName(teachers.get(0).getName());
+                }
+                dto.setCourseName(tblCourse.getCourseName());
+                AgencyQuery agencyQuery = new AgencyQuery(10, 0);
+                agencyQuery.setAgencyId(dto.getAgencyId());
+                List<TblAgency> agencyList = agencyServiceImpl.query(agencyQuery);
+                if (!CollectionUtils.isEmpty(agencyList)) {
+                    dto.setAgencyName(agencyList.get(0).getAgencyName());
+                }
+                List<String> studentIds = Lists.newArrayList();
+                for (TblClassMember member : classMembers) {
+                    studentIds.add(member.getStudentId());
+                }
 
-            dto.setStudentIds(studentIds);
+                dto.setStudentIds(studentIds);
+            } catch (Exception e) {
+                log.error("查询班级中元素失败 {}", e.getMessage());
+            }
         }
         return classItemDtos;
     }
 
     @Override
     public void checkDelete(String agencyId, List<String> ids) {
-//        List<TblClass> tblClasses = classServiceImpl.query(buildClassQueryWithIds(ids));
-//        for(TblClass tblClass:tblClasses){
-//            if(agencyId != null && agencyId.equals(tblClass.get
-//        }
     }
 
     private ClassQuery buildClassQuery(QueryDto pageDto) {

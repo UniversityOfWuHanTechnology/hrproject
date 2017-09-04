@@ -106,7 +106,7 @@ public class BaseManageController {
 
     @ResponseBody
     @RequestMapping(value = "query")
-    public Response<Object> query(@CookieValue(name = "token") String encryptedName, @PathVariable String module, QueryDto pageDto) {
+    public Response<Object> query(@CookieValue(name = "token", required = false) String encryptedName, @PathVariable String module, QueryDto pageDto) {
         if (pageDto == null) {
             pageDto = new QueryDto();
         }
