@@ -16,7 +16,7 @@
 
         <!--同一个账号最多只能同时在线一个-->
         <session-management>
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
+            <concurrency-control max-sessions="10" error-if-maximum-exceeded="false"/>
         </session-management>
 
         <!--用户访问页面无权限时，指定跳转页面-->

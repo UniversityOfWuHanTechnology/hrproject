@@ -9,7 +9,7 @@ CREATE TABLE `tb_audit_flow` (
   COMMENT '项目模板Id',
   `project_id`  VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '审核项目Id',
-  `node_id`     VARCHAR(32)         NOT NULL DEFAULT ''
+  `node_id`     VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '流程当前节点Id',
   `creator`     VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '审核流程发起人',
@@ -39,15 +39,15 @@ DROP TABLE IF EXISTS tb_audit_node;
 CREATE TABLE tb_audit_node (
   `id`            BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT
   COMMENT '主键Id',
-  `node_id`       VARCHAR(32)         NOT NULL DEFAULT ''
+  `node_id`       VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '节点Id',
   `node_name`     VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '节点名称',
   `node_desc`     VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '节点描述信息',
-  `previous_node` VARCHAR(32)         NOT NULL DEFAULT ''
+  `previous_node` VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '前置节点',
-  `next_node`     VARCHAR(32)         NOT NULL DEFAULT ''
+  `next_node`     VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '后置节点',
   `audit_role_id` VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '当前节点审核角色',
@@ -70,9 +70,9 @@ CREATE TABLE tb_audit_template (
   COMMENT '项目名称',
   `template_desc`      VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '项目简单描述',
-  `start_node`         VARCHAR(32)         NOT NULL DEFAULT ''
+  `start_node`         VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '起始节点',
-  `end_node`           VARCHAR(32)         NOT NULL DEFAULT ''
+  `end_node`           VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '终止节点',
   `audit_flow_diagram` VARCHAR(128)        NOT NULL DEFAULT ''
   COMMENT '项目审核流程图',
@@ -95,7 +95,7 @@ CREATE TABLE tb_audit_log (
   COMMENT '审核记录Id',
   `flow_id`      VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '审核流程Id',
-  `node_id`      VARCHAR(32)         NOT NULL DEFAULT ''
+  `node_id`      VARCHAR(64)         NOT NULL DEFAULT ''
   COMMENT '审核节点Id',
   `auditor`      VARCHAR(32)         NOT NULL DEFAULT ''
   COMMENT '审核人Id',
@@ -195,5 +195,11 @@ CREATE TABLE `tb_ledger_audit_record` (
   DEFAULT CHARSET = utf8mb4
   COMMENT = '台账审核记录表';
 
-INSERT INTO mohress_training.tb_audit_node (node_id, node_name, node_desc, previous_node, next_node, audit_role_id) VALUES ('Node_class_audit_people_society', '培训班级-人社局审核节点', '', '', '', '17081610225621055996');
+
 INSERT INTO mohress_training.tb_audit_template (template_id, template_name, template_desc, start_node, end_node, audit_flow_diagram, create_time, update_time) VALUES ('Class_audit_template', '培训课程审核模板', '', 'Node_class_audit_people_society', '', '', '2017-08-23 17:13:18', '2017-08-23 17:13:46');
+INSERT INTO mohress_training.tb_audit_template (template_id, template_name, template_desc, start_node, end_node, audit_flow_diagram, create_time, update_time) VALUES ('Ledger_audit_template', '台账审核模板', '', 'Node_ledger_audit_people_society', 'Node_ledger_audit_finance', '', '2017-08-25 22:31:15', '2017-09-05 20:33:53');
+
+INSERT INTO mohress_training.tb_audit_node (node_id, node_name, node_desc, previous_node, next_node, audit_role_id) VALUES ('Node_class_audit_people_society', '培训班级-人社局审核节点', '', '', '', '17081610225621055996');
+INSERT INTO mohress_training.tb_audit_node (node_id, node_name, node_desc, previous_node, next_node, audit_role_id) VALUES ('Node_ledger_audit_people_society', '台账-人社科审核节点', '', '', 'Node_ledger_audit_people_society_boss', '17081610225621055996');
+INSERT INTO mohress_training.tb_audit_node (node_id, node_name, node_desc, previous_node, next_node, audit_role_id) VALUES ('Node_ledger_audit_finance', '台账-财政局审核节点', '', 'Node_ledger_audit_people_society', '', '17081610225621055998');
+INSERT INTO mohress_training.tb_audit_node (node_id, node_name, node_desc, previous_node, next_node, audit_role_id) VALUES ('Node_ledger_audit_people_society_boss', '台账-人社局审核节点', '', 'Node_ledger_audit_people_society', 'Node_ledger_audit_finance', '17081610225621055999');
