@@ -1,7 +1,7 @@
 package com.mohress.training.util.constant;
 
 /**
- *
+ * 权限类型
  */
 public final class SecurityConstant {
 

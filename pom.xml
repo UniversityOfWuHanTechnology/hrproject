@@ -170,6 +170,12 @@
                 <artifactId>jackson-jr-all</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit-dep</artifactId>
+                <version>4.10</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
